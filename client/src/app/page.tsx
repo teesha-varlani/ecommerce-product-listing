@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+// import  Grid  from '@mui/material';
 import {
-  Grid,
   Typography,
   TextField,
   Select,
@@ -51,8 +51,15 @@ export default function HomePage() {
       </Typography>
 
       {/* search and sort */}
-      <Grid container spacing={2} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 2,
+          mb: 4,
+        }}
+      >
+        <Box sx={{ flex: '1 1 300px' }}>
           <TextField
             fullWidth
             label="Search products"
@@ -62,8 +69,8 @@ export default function HomePage() {
               setPage(1);
             }}
           />
-        </Grid>
-        <Grid item xs={12} sm={4}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px' }}>
           <Select
             fullWidth
             value={sort}
@@ -73,17 +80,24 @@ export default function HomePage() {
             <MenuItem value="asc">Price: Low to High</MenuItem>
             <MenuItem value="desc">Price: High to Low</MenuItem>
           </Select>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       {/* to show products in grid*/}
-      <Grid container spacing={3}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 3,
+          justifyContent: 'center',
+        }}
+      >
         {products.map((product) => (
-          <Grid item xs={12} sm={6} md={3} key={product._id}>
+          <Box key={product._id} sx={{ width: { xs: '100%', sm: '45%', md: '22%' } }}>
             <ProductCard {...product} />
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
 
       {/* pagination */}
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6, gap: 2 }}>

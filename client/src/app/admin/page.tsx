@@ -1,6 +1,6 @@
 'use client';
-import React, { useEffect, useState } from 'react';         //hooks for state management
-import { useRouter } from 'next/navigation';        //to route to different page
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Container,
   Typography,
@@ -8,34 +8,30 @@ import {
   Button,
   Paper,
   Box,
-  Grid,
   Divider,
-} from '@mui/material';         //components of material UI
+  Stack,
+} from '@mui/material';
 
-interface Product {             //product information interface
+interface Product {
   _id: string;
   name: string;
   price: number;
   image: string;
-}                 
+}
 
 export default function AdminPage() {
-  //products state managing 
   const [products, setProducts] = useState<Product[]>([]);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  //authentication using state management
   const [authChecked, setAuthChecked] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  //for navigating through pages
   const router = useRouter();
 
   useEffect(() => {
-    //load page only if token is validated
     const token = localStorage.getItem('token');
     if (!token) {
       router.push('/login');
@@ -57,7 +53,6 @@ export default function AdminPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    //add product
     e.preventDefault();
     const newProduct = { name, price: parseFloat(price), image };
 
@@ -93,7 +88,6 @@ export default function AdminPage() {
   };
 
   const handleEdit = (product: Product) => {
-    //edit product
     setName(product.name);
     setPrice(product.price.toString());
     setImage(product.image);
@@ -101,7 +95,6 @@ export default function AdminPage() {
   };
 
   const handleDelete = async (id: string) => {
-    //delete product
     if (!confirm('Are you sure you want to delete this product?')) return;
 
     try {
@@ -145,17 +138,21 @@ export default function AdminPage() {
 
       <Paper elevation={4} sx={{ p: 3, mb: 6 }}>
         <Box component="form" onSubmit={handleSubmit}>
-          <Grid container spacing={3}>
-            <Grid xs={12}>
-              <TextField
-                label="Product Name"
-                fullWidth
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </Grid>
-            <Grid xs={12} sm={6}>
+          <Stack spacing={3}>
+            <TextField
+              label="Product Name"
+              fullWidth
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 3,
+                flexDirection: { xs: 'column', sm: 'row' },
+              }}
+            >
               <TextField
                 label="Price"
                 type="number"
@@ -164,21 +161,17 @@ export default function AdminPage() {
                 onChange={(e) => setPrice(e.target.value)}
                 required
               />
-            </Grid>
-            <Grid xs={12} sm={6}>
               <TextField
                 label="Image URL"
                 fullWidth
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
               />
-            </Grid>
-            <Grid xs={12}>
-              <Button fullWidth variant="contained" size="large" type="submit">
-                {editingId ? 'Update Product' : 'Add Product'}
-              </Button>
-            </Grid>
-          </Grid>
+            </Box>
+            <Button fullWidth variant="contained" size="large" type="submit">
+              {editingId ? 'Update Product' : 'Add Product'}
+            </Button>
+          </Stack>
         </Box>
       </Paper>
 
@@ -188,49 +181,47 @@ export default function AdminPage() {
         Current Products
       </Typography>
 
-      <Grid container spacing={2}>
+      <Stack spacing={2}>
         {products.map((product) => (
-          <Grid xs={12} sm={6} key={product._id}>
-            <Paper
-              elevation={3}
-              sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                height: '100%',
-              }}
-            >
-              <Box>
-                <Typography variant="h6" fontWeight="bold">
-                  {product.name}
-                </Typography>
-                <Typography color="text.secondary">
-                  ₹{product.price.toFixed(2)}
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
-                <Button
-                  variant="contained"
-                  color="warning"
-                  fullWidth
-                  onClick={() => handleEdit(product)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  fullWidth
-                  onClick={() => handleDelete(product._id)}
-                >
-                  Delete
-                </Button>
-              </Box>
-            </Paper>
-          </Grid>
+          <Paper
+            key={product._id}
+            elevation={3}
+            sx={{
+              p: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Box>
+              <Typography variant="h6" fontWeight="bold">
+                {product.name}
+              </Typography>
+              <Typography color="text.secondary">
+                ₹{product.price.toFixed(2)}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
+              <Button
+                variant="contained"
+                color="warning"
+                fullWidth
+                onClick={() => handleEdit(product)}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                fullWidth
+                onClick={() => handleDelete(product._id)}
+              >
+                Delete
+              </Button>
+            </Box>
+          </Paper>
         ))}
-      </Grid>
+      </Stack>
     </Container>
   );
 }
