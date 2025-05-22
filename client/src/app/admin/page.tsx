@@ -44,7 +44,7 @@ export default function AdminPage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/products');
+      const res = await fetch('https://ecommerce-product-listing-e2g3.onrender.com/api/products');
       const data = await res.json();
       setProducts(data.products);
     } catch (err) {
@@ -59,8 +59,8 @@ export default function AdminPage() {
     try {
       const res = await fetch(
         editingId
-          ? `http://localhost:5000/api/products/${editingId}`
-          : 'http://localhost:5000/api/products',
+          ? `https://ecommerce-product-listing-e2g3.onrender.com/api/products/${editingId}`
+          : 'https://ecommerce-product-listing-e2g3.onrender.com/api/products',
         {
           method: editingId ? 'PUT' : 'POST',
           headers: {
@@ -98,7 +98,7 @@ export default function AdminPage() {
     if (!confirm('Are you sure you want to delete this product?')) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const res = await fetch(`https://ecommerce-product-listing-e2g3.onrender.com/api/products/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,

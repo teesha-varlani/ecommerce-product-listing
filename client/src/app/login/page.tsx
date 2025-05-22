@@ -19,7 +19,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:5000/api/login', {
+      const res = await fetch('https://ecommerce-product-listing-e2g3.onrender.com/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -34,7 +34,7 @@ export default function HomePage() {
   const fetchProducts = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/products?search=${search}&sort=${sort}&page=${page}`
+        `https://ecommerce-product-listing-e2g3.onrender.com/api/products?search=${search}&sort=${sort}&page=${page}`
       );
       const data = await res.json();
       setProducts(data.products);
