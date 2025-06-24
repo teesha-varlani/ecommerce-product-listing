@@ -15,3 +15,7 @@ In admin, login and home page, replace https://ecommerce-product-listing-e2g3.on
 Step 3: Run npm install in client folder
 Step 4: Run npm install in Server folder
 
+For Admin login:
+username: admin
+password: admin123
+
